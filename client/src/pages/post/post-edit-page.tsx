@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "../components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,40 +9,57 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../components/ui/form";
-import { Input } from "../components/ui/input";
-import { API_URL } from "../constants";
-import { useToast } from "../hooks/use-toast";
-import { useNavigate } from "react-router-dom";
-import { IPost } from "../types";
-import { useState } from "react";
+} from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
+import { API_URL } from "../../constants";
+import { useToast } from "../../hooks/use-toast";
+import { useNavigate, useParams } from "react-router-dom";
+import { IPost } from "../../types";
+import { useEffect, useState } from "react";
+import Loading from "../../components/loading";
 
 const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  body: z.string().min(2, {
-    message: "Description must be at least 2 characters.",
-  }),
+  title: z.string().optional(),
+  body: z.string().optional(),
 });
-const NewPostPage = () => {
+const PostEditPage = () => {
+  const { id } = useParams();
+  const [post, setPost] = useState<IPost | null>(null);
+  const [loading, setLoading] = useState(true);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      body: "",
-    },
   });
+  useEffect(() => {
+    const fetchCurrentPost = async () => {
+      try {
+        const response = await fetch(`${API_URL}/posts/${id}`);
+        if (response.ok) {
+          const json = await response.json();
+          if (json) {
+            form.setValue("title", json.title, { shouldDirty: true });
+            form.setValue("body", json.body, { shouldDirty: true });
+            setPost(json);
+          }
+        } else {
+          throw response;
+        }
+      } catch (error) {
+        console.log("An error occured", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCurrentPost();
+  }, [id, form.setValue]);
 
-  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/posts`, {
-        method: "POST",
+      const response = await fetch(`${API_URL}/posts/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -69,9 +86,18 @@ const NewPostPage = () => {
     }
   }
 
+  if (loading) {
+    return <Loading />;
+  }
+  if (!post) {
+    return (
+      <h1 className="text-3xl w-full mx-auto text-center">No Post Found</h1>
+    );
+  }
+
   return (
     <div>
-      <h1 className="lg:text-2xl text-xl">New Post Form</h1>
+      <h1 className="lg:text-2xl text-xl">Edit Post Form</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6">
           <FormField
@@ -110,4 +136,4 @@ const NewPostPage = () => {
   );
 };
 
-export default NewPostPage;
+export default PostEditPage;

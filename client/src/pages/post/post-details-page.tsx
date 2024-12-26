@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
-import { IPost } from "../types";
-import { useParams } from "react-router-dom";
-import { API_URL } from "../constants";
+import { IPost } from "../../types";
+import { useNavigate, useParams } from "react-router-dom";
+import { API_URL } from "../../constants";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardTitle,
-} from "../components/ui/card";
-import Loading from "../components/loading";
+} from "../../components/ui/card";
+import Loading from "../../components/loading";
+import { Button } from "../../components/ui/button";
 
 const PostDetailsPage = () => {
   const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchCurrentPost = async () => {
       try {
@@ -49,6 +52,9 @@ const PostDetailsPage = () => {
         <CardTitle className="text-3xl">{post.title}</CardTitle>
       </CardDescription>
       <CardContent className="text-lg">{post.body}</CardContent>
+      <CardFooter className="flex justify-end">
+        <Button onClick={() => navigate(`/post/${id}/edit`)}>Edit</Button>
+      </CardFooter>
     </Card>
   );
 };
