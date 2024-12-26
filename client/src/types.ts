@@ -5,3 +5,8 @@ export interface IPost {
   created_at: string;
   updated_at: string;
 }
+
+export interface IRoute {
+  path: string;
+  label: string;
+}

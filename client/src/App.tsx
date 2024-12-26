@@ -1,18 +1,17 @@
 import "./App.css";
-import PostsList from "./components/posts/posts-list";
-
+import AppRouter from "./components/app-router";
+import { BrowserRouter as Router } from "react-router-dom";
+import NavBar from "./components/nav/navbar";
 function App() {
   return (
-    <div className="px-4">
-      <header>
-        <h1 className="text-3xl font-bold">React on Rails Blog</h1>
-        <p className="mt-2 text-gray-600">
-          Find this application layout in client/src/app.tsx
-        </p>
-      </header>
-
-      <PostsList />
-    </div>
+    <Router>
+      <div className="w-screen">
+        <NavBar />
+        <div className="md:px-4 md:container mx-auto mt-20 ">
+          <AppRouter />
+        </div>
+      </div>
+    </Router>
   );
 }
 

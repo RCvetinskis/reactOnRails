@@ -32,8 +32,8 @@ const PostsList = (props: Props) => {
   }, []);
 
   return (
-    <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6  gap-3">
-      {posts.map((post, i) => (
+    <div className="grid w-full justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6  gap-3  ">
+      {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
     </div>
