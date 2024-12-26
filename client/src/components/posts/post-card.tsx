@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { IPost } from "../../types";
 import {
   Card,
@@ -13,14 +14,16 @@ type Props = {
 
 const PostCard = ({ post }: Props) => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{post.title}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <CardDescription>{post.body}</CardDescription>
-      </CardContent>
-    </Card>
+    <Link to={`post/${post.id}`}>
+      <Card>
+        <CardHeader>
+          <CardTitle>{post.title}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CardDescription>{post.body}</CardDescription>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 
