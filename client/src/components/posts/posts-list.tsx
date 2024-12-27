@@ -1,31 +1,25 @@
 import { useEffect, useState } from "react";
-import { API_URL } from "../../constants";
 import PostCard from "./post-card";
 import { usePostStore } from "../../stores/post-store";
 import Loading from "../loading";
+import { getPosts } from "../../services/post-service";
 
 const PostsList = () => {
-  // fetch posts from the API
   const { posts, setPosts } = usePostStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const loadPosts = async () => {
       try {
-        const response = await fetch(`${API_URL}/posts`);
-        if (response.ok) {
-          const json = await response.json();
-          setPosts(json);
-        } else {
-          throw response;
-        }
+        const data = await getPosts();
+        setPosts(data);
+        setLoading(false);
       } catch (error) {
         console.log("An error occured", error);
-      } finally {
         setLoading(false);
       }
     };
-    fetchPosts();
+    loadPosts();
   }, []);
 
   if (loading) {

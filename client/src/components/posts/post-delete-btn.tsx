@@ -1,10 +1,10 @@
 import { Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import { useTransition } from "react";
-import { API_URL } from "../../constants";
 import { useToast } from "../../hooks/use-toast";
 import { usePostStore } from "../../stores/post-store";
 import { useNavigate } from "react-router-dom";
+import { detePostById } from "../../services/post-service";
 
 type Props = {
   postId: string | number;
@@ -18,24 +18,17 @@ const PostDeleteButton = ({ postId, isPage }: Props) => {
   const navigate = useNavigate();
   const handleDelete = async (postId: string | number) => {
     try {
-      const response = await fetch(`${API_URL}/posts/${postId}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        if (isPage) {
-          navigate("/");
-          toast({
-            title: "Successfully deleted post",
-          });
-        }
-        removePost(postId);
+      await detePostById(postId);
+      if (isPage) {
+        navigate("/");
         toast({
           title: "Successfully deleted post",
         });
-      } else {
-        throw response;
       }
+      removePost(postId);
+      toast({
+        title: "Successfully deleted post",
+      });
     } catch (error: any) {
       toast({
         variant: "destructive",
