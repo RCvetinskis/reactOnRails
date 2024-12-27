@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IPost } from "../../types";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { API_URL } from "../../constants";
 import {
   Card,
@@ -10,9 +10,8 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import Loading from "../../components/loading";
-import { Button } from "../../components/ui/button";
 import PostDeleteButton from "../../components/posts/post-delete-btn";
-import { Edit } from "lucide-react";
+import PostEditButton from "../../components/posts/post-edit-btn";
 
 const PostDetailsPage = () => {
   const [post, setPost] = useState<IPost | null>(null);
@@ -20,7 +19,7 @@ const PostDetailsPage = () => {
 
   const { id } = useParams();
   if (!id) return null;
-  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchCurrentPost = async () => {
       try {
@@ -56,9 +55,7 @@ const PostDetailsPage = () => {
       </CardDescription>
       <CardContent className="text-lg">{post.body}</CardContent>
       <CardFooter className="flex justify-end items-center gap-3">
-        <Button size={"icon"} onClick={() => navigate(`/post/${id}/edit`)}>
-          <Edit />
-        </Button>
+        <PostEditButton postId={id} />
         <PostDeleteButton postId={id} isPage />
       </CardFooter>
     </Card>
