@@ -2,7 +2,7 @@ import PostsList from "../components/posts/posts-list";
 
 const IndexPage = () => {
   return (
-    <div className="w-full">
+    <div>
       <header>
         <h1 className="text-3xl font-bold">React on Rails Blog</h1>
         <p className="mt-2 text-gray-600">
