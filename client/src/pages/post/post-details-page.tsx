@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { IPost } from "../../types";
 import { useParams } from "react-router-dom";
-import { API_URL } from "../../constants";
 import {
   Card,
   CardContent,
@@ -12,6 +11,7 @@ import {
 import Loading from "../../components/loading";
 import PostDeleteButton from "../../components/posts/post-delete-btn";
 import PostEditButton from "../../components/posts/post-edit-btn";
+import { getPostById } from "../../services/post-service";
 
 const PostDetailsPage = () => {
   const [post, setPost] = useState<IPost | null>(null);
@@ -21,22 +21,17 @@ const PostDetailsPage = () => {
   if (!id) return null;
 
   useEffect(() => {
-    const fetchCurrentPost = async () => {
+    const loadCurrentPost = async () => {
       try {
-        const response = await fetch(`${API_URL}/posts/${id}`);
-        if (response.ok) {
-          const json = await response.json();
-          setPost(json);
-        } else {
-          throw response;
-        }
+        const data = await getPostById(id);
+        setPost(data);
+        setLoading(false);
       } catch (error) {
         console.log("An error occured", error);
-      } finally {
         setLoading(false);
       }
     };
-    fetchCurrentPost();
+    loadCurrentPost();
   }, [id]);
 
   if (loading) {
