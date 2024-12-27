@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import PostDeleteButton from "./post-delete-btn";
+import PostEditButton from "./post-edit-btn";
 
 type Props = {
   post: IPost;
@@ -25,7 +26,8 @@ const PostCard = ({ post }: Props) => {
           <CardDescription>{post.body}</CardDescription>
         </CardContent>
       </Link>
-      <CardFooter className="flex justify-end">
+      <CardFooter className="flex justify-end items-center gap-3">
+        <PostEditButton postId={post.id} />
         <PostDeleteButton postId={post.id} />
       </CardFooter>
     </Card>
