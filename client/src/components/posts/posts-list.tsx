@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "../../constants";
 import PostCard from "./post-card";
-import { IPost } from "../../types";
+import { usePostStore } from "../../stores/post-store";
+import Loading from "../loading";
 
-type Props = {};
-
-const PostsList = (props: Props) => {
+const PostsList = () => {
   // fetch posts from the API
-  const [posts, setPosts] = useState<IPost[]>([]);
+  const { posts, setPosts } = usePostStore();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -22,7 +20,6 @@ const PostsList = (props: Props) => {
           throw response;
         }
       } catch (error) {
-        setError("An error occured...");
         console.log("An error occured", error);
       } finally {
         setLoading(false);
@@ -30,6 +27,10 @@ const PostsList = (props: Props) => {
     };
     fetchPosts();
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="grid w-full justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6  gap-3  ">

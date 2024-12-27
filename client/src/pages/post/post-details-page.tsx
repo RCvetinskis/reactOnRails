@@ -11,12 +11,15 @@ import {
 } from "../../components/ui/card";
 import Loading from "../../components/loading";
 import { Button } from "../../components/ui/button";
+import PostDeleteButton from "../../components/posts/post-delete-btn";
+import { Edit } from "lucide-react";
 
 const PostDetailsPage = () => {
   const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
+  if (!id) return null;
   const navigate = useNavigate();
   useEffect(() => {
     const fetchCurrentPost = async () => {
@@ -52,8 +55,11 @@ const PostDetailsPage = () => {
         <CardTitle className="text-3xl">{post.title}</CardTitle>
       </CardDescription>
       <CardContent className="text-lg">{post.body}</CardContent>
-      <CardFooter className="flex justify-end">
-        <Button onClick={() => navigate(`/post/${id}/edit`)}>Edit</Button>
+      <CardFooter className="flex justify-end items-center gap-3">
+        <Button size={"icon"} onClick={() => navigate(`/post/${id}/edit`)}>
+          <Edit />
+        </Button>
+        <PostDeleteButton postId={id} isPage />
       </CardFooter>
     </Card>
   );

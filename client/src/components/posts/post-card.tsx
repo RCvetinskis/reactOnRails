@@ -4,9 +4,11 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import PostDeleteButton from "./post-delete-btn";
 
 type Props = {
   post: IPost;
@@ -14,16 +16,19 @@ type Props = {
 
 const PostCard = ({ post }: Props) => {
   return (
-    <Link to={`post/${post.id}`}>
-      <Card>
+    <Card>
+      <Link to={`post/${post.id}`}>
         <CardHeader>
           <CardTitle>{post.title}</CardTitle>
         </CardHeader>
         <CardContent>
           <CardDescription>{post.body}</CardDescription>
         </CardContent>
-      </Card>
-    </Link>
+      </Link>
+      <CardFooter className="flex justify-end">
+        <PostDeleteButton postId={post.id} />
+      </CardFooter>
+    </Card>
   );
 };
 
