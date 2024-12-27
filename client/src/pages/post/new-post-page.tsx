@@ -11,11 +11,10 @@ import {
   FormMessage,
 } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
-import { API_URL } from "../../constants";
 import { useToast } from "../../hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { IPost } from "../../types";
 import { useState } from "react";
+import { createPost } from "../../services/post-service";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -41,23 +40,8 @@ const NewPostPage = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const response = await fetch(`${API_URL}/posts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: values.title,
-          body: values.body,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Server error occurred");
-      }
-      const createdPost = (await response.json()) as IPost;
-      navigate(`/post/${createdPost.id}`);
+      const data = await createPost(values);
+      navigate(`/post/${data.id}`);
     } catch (error: any) {
       toast({
         variant: "destructive",
