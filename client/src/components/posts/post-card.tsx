@@ -10,12 +10,14 @@ import {
 } from "../ui/card";
 import PostDeleteButton from "./post-delete-btn";
 import PostEditButton from "./post-edit-btn";
+import PostImage from "./post-image";
 
 type Props = {
   post: IPost;
 };
 
 const PostCard = ({ post }: Props) => {
+  const imgUrl = post.image_url ?? "/assets/no_img.jpg";
   return (
     <Card>
       <Link to={`post/${post.id}`}>
@@ -23,6 +25,7 @@ const PostCard = ({ post }: Props) => {
           <CardTitle>{post.title}</CardTitle>
         </CardHeader>
         <CardContent>
+          <PostImage imgUrl={imgUrl} />
           <CardDescription>{post.body}</CardDescription>
         </CardContent>
       </Link>

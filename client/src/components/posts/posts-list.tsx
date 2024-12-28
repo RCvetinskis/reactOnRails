@@ -27,7 +27,7 @@ const PostsList = () => {
   }
 
   return (
-    <div className="grid w-full justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6  gap-3  ">
+    <div className="grid w-full justify-center sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-3  ">
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
