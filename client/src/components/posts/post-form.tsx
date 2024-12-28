@@ -17,6 +17,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { postFormSchema } from "../../schemas/zod-schemas";
 import { X } from "lucide-react";
+import PostImage from "./post-image";
 
 type Props = {
   handleService: (data: FormData) => Promise<any>;
@@ -97,7 +98,9 @@ const PostForm = ({ handleService, initialData }: Props) => {
         />
         {displayFileInput ? (
           <div className="relative">
-            <img src={initialData?.image_url} />
+            <PostImage
+              imgUrl={initialData?.image_url ?? "/assets/no_img.jpg"}
+            />
             <Button
               onClick={handleClearImg}
               className="absolute top-0 right-0"
