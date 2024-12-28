@@ -29,29 +29,21 @@ export const getPostById = async (id: string | number) => {
   return response.json();
 };
 
-export const createPost = async (postData: { title: string; body: string }) => {
+export const createPost = async (postData: FormData) => {
   const response = await fetch(`${API_URL}/posts`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postData),
+    // doesnt need headers because its formData
+    body: postData,
   });
   if (!response.ok) {
     throw new Error(response.statusText || "Something went wrong");
   }
   return response.json();
 };
-export const editPost = async (
-  id: string | number,
-  postData: { title?: string; body?: string }
-) => {
+export const editPost = async (id: string | number, postData: FormData) => {
   const response = await fetch(`${API_URL}/posts/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(postData),
+    body: postData,
   });
   if (!response.ok) {
     throw new Error(response.statusText || "Something went wrong");
