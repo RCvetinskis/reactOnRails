@@ -3,14 +3,19 @@ class Api::V1::PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.order(created_at: :desc)
+    if params[:q].present?
+      # Perform search based on the `q` parameter
+      @posts = Post.where("title LIKE ? OR body LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%").order(created_at: :desc)
+    else
+      @posts = Post.order(created_at: :desc)
+    end
 
     post_with_images = @posts.map do |post|
-    if post.image.attached?
-      post.as_json.merge(image_url: url_for(post.image))
-    else
-      post.as_json.merge(image_url: nil)
-    end
+      if post.image.attached?
+        post.as_json.merge(image_url: url_for(post.image))
+      else
+        post.as_json.merge(image_url: nil)
+      end
     end
 
     render json: post_with_images

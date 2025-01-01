@@ -1,5 +1,4 @@
 import { routes } from "../../constants";
-import SearchInput from "../search/search-input";
 import { NavigationMenu, NavigationMenuList } from "../ui/navigation-menu";
 import NavItem from "./nav-item";
 
@@ -13,8 +12,6 @@ const NavBar = () => {
           ))}
         </NavigationMenuList>
       </NavigationMenu>
-
-      <SearchInput />
     </div>
   );
 };
