@@ -1,10 +1,11 @@
+import PaginationContainer from "../components/pagination/pagination-container";
 import PostsList from "../components/posts/posts-list";
 import SearchInput from "../components/search/search-input";
 import { usePostStore } from "../stores/post-store";
 import { useSearchParams } from "react-router-dom";
 
 const IndexPage = () => {
-  const { posts, setPosts } = usePostStore();
+  const { posts, setPosts, totalPages } = usePostStore();
 
   const searchParams = useSearchParams()[0];
 
@@ -24,8 +25,14 @@ const IndexPage = () => {
       <PostsList
         posts={posts}
         setPosts={setPosts}
+        page={Number(searchParams.get("page"))}
         q={searchParams.get("q")?.toString()}
       />
+      {totalPages > 0 && (
+        <footer className="pt-10">
+          <PaginationContainer totalPages={totalPages} />
+        </footer>
+      )}
     </div>
   );
 };

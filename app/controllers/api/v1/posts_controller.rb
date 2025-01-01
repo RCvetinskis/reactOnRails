@@ -3,22 +3,23 @@ class Api::V1::PostsController < ApplicationController
 
   # GET /posts
   def index
+    posts_per_page = params[:limit] || 10
+      puts "The value of params[:limit] is #{posts_per_page}"
+
     if params[:q].present?
-      # Perform search based on the `q` parameter
       @posts = Post.where("title LIKE ? OR body LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%").order(created_at: :desc)
     else
       @posts = Post.order(created_at: :desc)
     end
 
-    post_with_images = @posts.map do |post|
-      if post.image.attached?
-        post.as_json.merge(image_url: url_for(post.image))
-      else
-        post.as_json.merge(image_url: nil)
-      end
-    end
+    post_with_images = paginate_posts(@posts,  posts_per_page)
+    total_posts_count = Post.count
 
-    render json: post_with_images
+    render json: {
+      data: post_with_images,
+      total_count: total_posts_count,
+      per_page: posts_per_page
+    }
   end
 
   # GET /posts/1

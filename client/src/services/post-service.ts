@@ -1,10 +1,18 @@
 import { API_URL } from "../constants";
 
-export const getPosts = async (q?: string) => {
+export const getPosts = async (page = 1, limit = 10, q?: string) => {
   const url = new URL(`${API_URL}/posts`);
   if (q) {
     url.searchParams.append("q", q);
   }
+  if (page) {
+    url.searchParams.append("page", page.toString());
+  }
+
+  if (limit) {
+    url.searchParams.append("limit", limit.toString());
+  }
+
   const response = await fetch(url.toString());
   if (!response.ok) {
     throw new Error(response.statusText || "Something went wrong");

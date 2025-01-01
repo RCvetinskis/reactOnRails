@@ -13,3 +13,5 @@ export const routes = [
     label: "New Post",
   },
 ];
+
+export const limit = 10;

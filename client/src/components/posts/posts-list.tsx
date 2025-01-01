@@ -2,22 +2,27 @@ import { useEffect, useState } from "react";
 import PostCard from "./post-card";
 import Loading from "../loading";
 import { getPosts } from "../../services/post-service";
-import { IPost } from "../../types";
+import { IAPIPostsResult, IPost } from "../../types";
+import { usePostStore } from "../../stores/post-store";
+import { limit } from "../../constants";
 
 type Props = {
   posts: IPost[];
   setPosts: (posts: IPost[]) => void;
   q?: string;
+  page?: number;
 };
-const PostsList = ({ posts, setPosts, q }: Props) => {
+const PostsList = ({ posts, setPosts, q, page = 1 }: Props) => {
   const [loading, setLoading] = useState(true);
-
+  const { setTotalPages } = usePostStore();
   useEffect(() => {
     const loadPosts = async () => {
       setLoading(true);
       try {
-        const data = await getPosts(q);
-        setPosts(data);
+        const result = (await getPosts(page, limit, q)) as IAPIPostsResult;
+
+        setTotalPages(Math.ceil(result.total_count / result.per_page));
+        setPosts(result.data);
       } catch (error) {
         console.log("An error occured", error);
       } finally {
@@ -25,7 +30,7 @@ const PostsList = ({ posts, setPosts, q }: Props) => {
       }
     };
     loadPosts();
-  }, [q]);
+  }, [q, page]);
 
   if (loading) {
     return <Loading />;
