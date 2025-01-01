@@ -16,7 +16,7 @@ const SearchInput = () => {
     } else {
       setSearchParams({});
     }
-  }, [debouncedValue, setSearchParams]);
+  }, [debouncedValue]);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };

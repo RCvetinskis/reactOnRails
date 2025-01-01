@@ -6,6 +6,11 @@ export interface IPost {
   created_at: string;
   updated_at: string;
 }
+export interface IAPIPostsResult {
+  data: IPost[];
+  total_count: number;
+  per_page: number;
+}
 
 export interface IRoute {
   path: string;
