@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { IPost } from "../../types";
 import { useEffect, useState } from "react";
 import Loading from "../../components/loading";
@@ -14,8 +14,11 @@ const formSchema = z.object({
 });
 const PostEditPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  if (!id) return navigate("/");
+
+  if (!id)
+    return (
+      <h1 className="text-3xl w-full mx-auto text-center">No Post Found</h1>
+    );
 
   const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);

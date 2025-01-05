@@ -14,5 +14,6 @@ Post.destroy_all
   Post.create(
     title: Faker::Lorem.sentence(word_count: 3),
     body: Faker::Lorem.paragraph(sentence_count: 3),
+    user_id: 1
   )
 end

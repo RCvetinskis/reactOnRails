@@ -48,3 +48,6 @@ group :development, :test do
 end
 
 gem "kaminari"
+
+gem "devise", "~> 4.9"
+gem "devise-api", "~> 0.2.0"

@@ -14,6 +14,7 @@ export const getPosts = async (page = 1, limit = 10, q?: string) => {
   }
 
   const response = await fetch(url.toString());
+
   if (!response.ok) {
     throw new Error(response.statusText || "Something went wrong");
   }
