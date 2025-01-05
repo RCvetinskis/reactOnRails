@@ -6,7 +6,6 @@ import { useSearchParams } from "react-router-dom";
 
 const IndexPage = () => {
   const { posts, setPosts, totalPages } = usePostStore();
-
   const searchParams = useSearchParams()[0];
 
   return (

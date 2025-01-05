@@ -1,5 +1,3 @@
-"use client";
-
 import { useNavigate } from "react-router";
 import { IRoute } from "../../types";
 import {
@@ -15,14 +13,23 @@ type Props = {
 
 const NavItem = ({ item }: Props) => {
   const navigate = useNavigate();
+  const handleNavigation = () => {
+    if (item.path) {
+      navigate(item.path);
+    }
+  };
   return (
     <NavigationMenuItem>
-      <NavigationMenuLink
-        onClick={() => navigate(item.path)}
-        className={cn(navigationMenuTriggerStyle(), "cursor-pointer")}
-      >
-        {item.label}
-      </NavigationMenuLink>
+      {item.path && !item.Component ? (
+        <NavigationMenuLink
+          onClick={handleNavigation}
+          className={cn(navigationMenuTriggerStyle(), "cursor-pointer")}
+        >
+          {item.label}
+        </NavigationMenuLink>
+      ) : (
+        <NavigationMenuLink>{item.Component}</NavigationMenuLink>
+      )}
     </NavigationMenuItem>
   );
 };

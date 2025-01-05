@@ -12,6 +12,16 @@ export const routes = [
     path: "/new",
     label: "New Post",
   },
+
+  {
+    path: "/sign-in",
+    label: "Sign in",
+  },
 ];
 
 export const limit = 10;
+
+export const mockUser = {
+  id: 10441,
+  email: "test@gmail.com",
+};

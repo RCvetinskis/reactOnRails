@@ -5,6 +5,7 @@ export interface IPost {
   image_url?: string;
   created_at: string;
   updated_at: string;
+  user_id: number | string;
 }
 export interface IAPIPostsResult {
   data: IPost[];
@@ -12,7 +13,15 @@ export interface IAPIPostsResult {
   per_page: number;
 }
 
+export interface IUser {
+  id: number | string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface IRoute {
-  path: string;
+  path: string | null;
   label: string;
+  Component: React.ReactNode | null;
 }

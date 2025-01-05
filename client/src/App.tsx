@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import NavBar from "./components/nav/navbar";
 import { Toaster } from "./components/ui/toaster";
 
+// TODO: Finish setting up refresh/tokens/ display user data / and logic
 function App() {
   return (
     <Router>
